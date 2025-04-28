@@ -1,0 +1,7 @@
+- name: Docker-Ubuntu 3
+  hosts: other
+  become: true
+  tasks:
+    - name: Echo msg
+      ansible.builtin.debug:
+        msg: from other!

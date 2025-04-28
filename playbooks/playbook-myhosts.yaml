@@ -1,0 +1,11 @@
+- name: Docker-Ubuntu 1 & 2
+  # Group to apply playbook
+  hosts: myhosts
+  # if it requires sudo
+  # Command should have --ask-become-pass if true
+  become: false
+  # List of tasks
+  tasks:
+    - name: Echo msg
+      ansible.builtin.debug:
+        msg: from myhosts!
