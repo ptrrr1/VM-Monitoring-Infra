@@ -1,0 +1,71 @@
+name: Monitoring-Infra-SIM
+
+networks:
+  monitoring:
+    driver: bridge
+
+volumes:
+  ansible-data:
+    driver: local
+  grafana-data:
+    driver: local
+  prometheus-data:
+    driver: local
+
+services:
+  # Ansible Services
+  ansible-vm-01:
+    image: ubuntu-ansible-ssh
+    container_name: ansible-vm-01
+    ports:
+      - 2222:22
+    volumes:
+      - ansible-data:/home/ptrrr/tmp/ansible-data
+    restart: unless-stopped
+    networks:
+      - monitoring
+  ansible-vm-02:
+    image: ubuntu-ansible-ssh
+    container_name: ansible-vm-02
+    ports:
+      - 2223:22
+    volumes:
+      - ansible-data:/home/ptrrr/tmp/ansible-data
+    restart: unless-stopped
+    networks:
+      - monitoring
+  ansible-vm-03:
+    image: ubuntu-ansible-ssh
+    container_name: ansible-vm-03
+    ports:
+      - 2224:22
+    volumes:
+      - ansible-data:/home/ptrrr/tmp/ansible-data
+    restart: unless-stopped
+    networks:
+      - monitoring  
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - ./grafana/data:/home/ptrrr/tmp/grafana-data
+    restart: unless-stopped
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - 9090:9090
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    volumes:
+      - ./prometheus/config-prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
+      - ./prometheus/data:/etc/prometheus
+    restart: unless-stopped
+    networks:
+      - monitoring
