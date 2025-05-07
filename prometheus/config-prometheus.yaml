@@ -7,9 +7,14 @@ scrape_configs:
     scrape_interval: 5s
     scheme: http
     static_configs:
-      - targets: ['ansible-vm-01:22', 'ansible-vm-02:22', 'ansible-vm-03:22']
+      - targets: ['ansible-vm-01:8080', 'ansible-vm-02:8080', 'ansible-vm-03:8080']
 
   - job_name: 'prometheus'
     scrape_interval: 5s
     static_configs:
       - targets: ['localhost:9090']
+
+  - job_name: 'cAdvisor'
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['cadvisor:8080']

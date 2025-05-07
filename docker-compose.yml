@@ -7,9 +7,7 @@ networks:
 volumes:
   ansible-data:
     driver: local
-  grafana-data:
-    driver: local
-  prometheus-data:
+  cadvisor-data:
     driver: local
 
 services:
@@ -67,5 +65,18 @@ services:
       - ./prometheus/config-prometheus.yaml:/etc/prometheus/prometheus.yaml:ro
       - ./prometheus/data:/etc/prometheus
     restart: unless-stopped
+    networks:
+      - monitoring
+
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - 8080:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker:/var/lib/docker:ro
     networks:
       - monitoring

@@ -1,3 +1,13 @@
+all:
+  # Variables applied to every host
+   vars:
+    ansible_host: localhost
+    ansible_user: node
+    ansible_password: node1234
+    become_ansible_user: node
+    become_ansible_password: node1234
+    ansible_connection: ssh
+
 # Metagroup called myhosts
 myhosts:
   hosts:
@@ -6,23 +16,8 @@ myhosts:
       ansible_port: 2222
     ubuntu-ssh-2:
       ansible_port: 2223
-  # Variables applied to every host in myhosts
-  vars:
-    ansible_host: localhost
-    ansible_user: node
-    ansible_password: node1234
-    become_ansible_user: node
-    become_ansible_password: node1234
-    ansible_connection: ssh
 
 other:
   hosts:
     ubuntu-ssh-3:
       ansible_port: 2224
-  vars:
-    ansible_host: localhost
-    ansible_user: node
-    ansible_password: node1234
-    become_ansible_user: node
-    become_ansible_password: node1234
-    ansible_connection: ssh

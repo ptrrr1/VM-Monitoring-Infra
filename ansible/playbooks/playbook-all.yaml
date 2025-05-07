@@ -1,0 +1,13 @@
+- name: Docker-Ubuntu 3
+  # Group to apply playbook
+  hosts: all
+  # if it requires sudo
+  # Command should have --ask-become-pass if true
+  become: true
+  # List of tasks
+  tasks:
+    - name: Install Apache
+      apt:
+        name: apache2
+        update_cache: yes
+        state: latest
